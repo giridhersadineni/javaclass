@@ -9,9 +9,7 @@ class readnumbers{
             int m=sc.nextInt();
             int sum=n+m;
             System.out.println("The sum of both numbers is "+sum);
-
-
-
+            sc.close();
     }
    
 }
