@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.Scanner;
 class readnumbers{
     public static void main(String args[]) {
