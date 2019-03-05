@@ -1,3 +1,4 @@
+
 #include<stdio.h>
 #include<stdlib.h>
 void marksmodule();
@@ -11,6 +12,7 @@ typedef struct student{
     char name[20];
     char fathername[20];
 }student;
+
 typedef struct studentmarks{
     int roll;
     int s1;
