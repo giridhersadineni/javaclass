@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 void marksmodule();
 void informationmodule();
 void addmarks();
@@ -9,6 +10,10 @@ void showstudentinfo();
 void markscalculate(int roll);
 void showallstudents();
 void showallmarks();
+void showresult();
+void writetomarks();
+void writetostudents();
+void search(char *string,char *file);
 typedef struct student{
     int roll;
     char name[20];
@@ -30,9 +35,12 @@ studentmarks m[100];
 int main(){
     int ch,smsch,sisch;
     system("clear");
+    search("1","students.txt");
+
     printf("\nSelect Module");
     printf("\n1. Student Marks System");
     printf("\n2. Student Information System");
+    printf("\n3. Show Result");
     printf("\n9. Exit");
     scanf("%d",&ch);
     switch(ch){
@@ -41,6 +49,9 @@ int main(){
         break;
     case 2:
         informationmodule();
+        break;
+        case 3:
+        showresult();
         break;
     case 9:
         return 0;
@@ -110,6 +121,7 @@ void addstudentinfo(){
     s[roll-1].roll=roll;
     scanf("%s",&s[roll-1].name);
     scanf("%s",&s[roll-1].fathername);
+    writetostudents();
     informationmodule();
 }
 void showstudentinfo(){
@@ -159,6 +171,7 @@ void addmarks(){
     m[roll].roll=roll;
     scanf("%d%d",&m[roll].s1,&m[roll].s2);
     markscalculate(roll);
+    writetomarks();
     printf("Done");
     marksmodule();
 
@@ -181,4 +194,46 @@ void showmarks(){
 void markscalculate(int roll){
     m[roll].total=m[roll].s1+m[roll].s2;
     m[roll].avg=(m[roll].s1+m[roll].s2)/2;
+}
+
+void showresult(){
+    int i;
+    printf("Roll No\tName\tFatherName\ts1\ts2\ttotal\tavg\n");
+    printf("_______________________________________________");
+    for(i=0;i<100;i++)
+    {
+        printf("\n%d\t%s\t%s\t%d\t%d\t%d\t%f",s[i].roll,s[i].name,s[i].fathername,m[i].s1,m[i].s2,m[i].total,m[i].avg);
+    }
+    main();
+}
+
+
+void writetomarks(){
+    int i;
+    FILE *marksfile;
+    marksfile=fopen("marks.txt","w");
+    for(i=0;i<100;i++){
+        fprintf(marksfile,"\n%d\t%d\t%d\t%d\t%f",m[i].roll,m[i].s1,m[i].s2,m[i].total,m[i].avg);
+    }
+    fclose(marksfile);
+    return;
+}
+void writetostudents(){
+    int i;
+    FILE *studentsfile;
+    studentsfile=fopen("students.txt","w");
+    for(i=0;i<100;i++){
+        fprintf(studentsfile,"\n%d\t%s\t%s",s[i].roll,s[i].name,s[i].fathername);
+    }
+    fclose(studentsfile);
+    return;
+}
+
+void search(char *string,char *file){
+    char cmd[100];
+    strcat(cmd,"grep ");
+    strcat(cmd,string);
+    strcat(cmd," ");
+    strcat(cmd,file);
+    system(cmd);
 }
